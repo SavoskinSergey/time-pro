@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_project" data-bs-whatever="@mdo">
+  Добавить новый проект
+</button>
+
+<div class="modal fade" id="create_project" tabindex="-1" aria-labelledby="create_projectLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="create_projectLabel">Новый Проект</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Создать</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h1>Все проекты</h1>
+<table  class="table">
+    <thead>
+        <tr>
+          <th  scope="col">#</th>
+          <th  scope="col">Контрагент</th>
+          <th  scope="col">Этап</th>
+          <th  scope="col">Бюджет</th>
+          <th  scope="col">Общие затраты</th>
+          <th  scope="col">Детализация</th>
+        </tr>
+      </thead>
+<tbody>
+{% for project in projects %}
+
+  <tr>
+    <th scope="row">{{ forloop.counter }}</th>
+    <td>
+      <a href="{% url 'project:project_detail' project.id %}"> {{ project.counterparty }}</a>
+    </td>
+    <td>{{ project.stage }}</td>
+    <td>{{ project.budget }}</td>
+    <td>{{ project.budget }}</td>
+    <td><a href>
+      <a href="{% url 'project:project_detail' project.id %}"> ...</a>
+    </td>
+  </tr>
+{% empty %}
+    <li>No projects yet.</li>
+{% endfor %}
+
+</tbody>
+</table>
+
+
+
+{% endblock %}

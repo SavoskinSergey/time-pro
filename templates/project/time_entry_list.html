@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_project" data-bs-whatever="@mdo">
+  Добавить новое списание времени
+</button>
+
+<div class="modal fade" id="create_project" tabindex="-1" aria-labelledby="create_projectLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="create_projectLabel">Списать время</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Списать</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <h1>Все списания за неделю</h1>
+    </div>
+    <div class="col-6">
+      <h4 class="text-end bottom">{{year}}</h4>
+    </div>
+  </div>
+</div>
+<h3>{{week_number}}-ая неделя {{year}}:</h3>
+
+<nav aria-label="Scroll by week">
+  <ul class="pagination">
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">{{week_number|add:"-1"}}</a></li>
+    <li class="page-item"><a class="page-link" href="#">{{week_number}}-ая неделя</a></li>
+    <li class="page-item"><a class="page-link" href="#">{{week_number|add:"1"}}</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+
+<h3> {{week_begin|date:"d.m.Y"}} - {{week_end|date:"d.m.Y"}}  </h3>
+<table id="TStable" class="table">
+    <thead>
+        <tr>
+          <th  scope="col">#</th>
+          <th  scope="col">Дата</th>
+          <th  scope="col">Сотркдник</th>
+          <th  scope="col">Проект</th>
+          <th  scope="col">Затраты</th>
+          <th  scope="col">Комментарии</th>
+        </tr>
+      </thead>
+<tbody>
+{% for entry in time_entry %}
+
+  <tr>
+    <th scope="row">{{ forloop.counter }}</th>
+    <td>{{ entry.start_time|date:"d.m.Y"  }}</td>
+    <td>{{ entry.employee }}</td>
+    <td>{{ entry.project }}</td>
+    <td>{{ entry.time_spent }}</td>
+    <td>{{ entry.budget }}</td>
+    <td>{{ entry.comment }}</td>
+  </tr>
+{% empty %}
+    <li>No entry yet.</li>
+{% endfor %}
+
+</tbody>
+</table>
+<button id="excelHtml5"> exel</button>
+
+
+{% endblock %}
