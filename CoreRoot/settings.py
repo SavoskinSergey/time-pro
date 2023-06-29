@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'bootstrap5',
     'debug_toolbar',
+    'mptt',
 
     # Local apps
     'core',
@@ -65,6 +66,7 @@ INSTALLED_APPS = [
     'core.auth',
     'core.employee',
     'core.project',
+    'core.task',
 ]
 
 MIDDLEWARE = [

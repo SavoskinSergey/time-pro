@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ object.counterparty }}</h1>
+<p>Этап -{{ object.stage }}</p>
+<p>Бюджет - {{ object.budget }}</p>
+
+<p>Список сотрудников:</p>
+{% for member in members %}
+    <ul>
+        {{ member.name }} - {{ member.email }}
+    </ul>
+{% endfor %}
+
+
+
+{% endblock %}

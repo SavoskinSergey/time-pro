@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet"  href="{% static 'task_list.css' %}" >
+    <style>
+      .tree summary::before{
+        z-index    : 1;
+        background : rgb(213, 242, 24) url('{% static "images/expand-collapse.svg" %}') 0 0;
+      }
+    </style>
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="@mdo">
+  Добавить новую задачу
+</button>
+
+<div class="modal fade" id="create_task" tabindex="-1" aria-labelledby="create_taskLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="create_taskLabel">Новая Задача</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Создать</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h1>Все задачи</h1>
+<table  class="table">
+    <thead>
+        <tr>
+          <th  scope="col">#</th>
+          <th  scope="col">Название</th>
+          <th  scope="col">Родитель</th>
+          <th  scope="col">Бюджет</th>
+          <th  scope="col">Детализация</th>
+        </tr>
+      </thead>
+<tbody>
+
+
+</tbody>
+</table>
+
+
+{% load mptt_tags %}
+
+<ul class="tree">
+    {% recursetree tasks %}
+
+        <li>
+            {% if not node.is_leaf_node %}
+            <details open>
+            <summary>{{ node.title }}</summary>
+                <ul class="children">
+                    {{ children }} 
+                </ul>
+            
+            </details>
+            {% else %}
+            {{ node.title }}
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>
+
+
+
+
+{% endblock %}

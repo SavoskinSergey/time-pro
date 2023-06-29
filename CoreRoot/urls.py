@@ -23,6 +23,7 @@ from core.backend.urls import urlpatterns as backend_urls
 from core.account.urls import urlpatterns as account_urls
 from core.employee.urls import urlpatterns as employee_urls
 from core.project.urls import urlpatterns as project_urls
+from core.task.urls import urlpatterns as task_urls
 
 urlpatterns = [
     re_path(r'^', include(
@@ -40,6 +41,9 @@ urlpatterns = [
     re_path(r"^project/", include(
                                     (project_urls, "project"),
                                     namespace="project")),
+    re_path(r"^task/", include(
+                                    (task_urls, "task"),
+                                    namespace="task")),
     path('__debug__/', include('debug_toolbar.urls')),
 ]
 
