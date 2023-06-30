@@ -13,7 +13,7 @@
       }
     </style>
 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="@mdo">
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="">
   Добавить новую задачу
 </button>
 
@@ -46,35 +46,63 @@
           <th  scope="col">Детализация</th>
         </tr>
       </thead>
-<tbody>
 
+<tbody>
+  
 
 </tbody>
+
 </table>
-
-
 {% load mptt_tags %}
 
 <ul class="tree">
     {% recursetree tasks %}
-
         <li>
             {% if not node.is_leaf_node %}
             <details open>
-            <summary>{{ node.title }}</summary>
+          
+            <summary  title="{{ node.description }}">{{ node.title }}
+              <span  data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="{{ node.id }}" title="добавить задачу"  style="position: absolute; right: 0;">...</span>
+            </summary>
+
                 <ul class="children">
                     {{ children }} 
                 </ul>
-            
+
             </details>
             {% else %}
-            {{ node.title }}
+
+            {{ node.title }} 
+            <p class="description">
+            {{ node.description }}
+              <span  data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="{{ node.id }}" title="добавить задачу"  style="position: absolute; right: 0;">...</span>
+            </p>
             {% endif %}
         </li>
     {% endrecursetree %}
 </ul>
 
 
+<script>
+  var modalTrigger = document.getElementById('create_task')
+  var selectElement = document.getElementById('custom-parent-id');
+  modalTrigger.addEventListener('show.bs.modal', function (event) {
+    // Кнопка, запускающая модальное окно
+    var button = event.relatedTarget
+    // Извлечь информацию из атрибутов data-bs- *
+    var taskId = button.getAttribute('data-bs-whatever')
+    // Обновите содержимое модального окна.
+    for (var i = 0; i < selectElement.options.length; i++) {
+      var option = selectElement.options[i];
+      if (option.getAttribute('value') === taskId) {
+        option.setAttribute('selected', 'selected');
+      } else {
+        option.removeAttribute('selected');
+      }
+    }
+  });
+</script>
 
 
 {% endblock %}
+

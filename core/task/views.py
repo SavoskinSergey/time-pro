@@ -24,8 +24,6 @@ class TaskListView(FormView):
         task = form.save(commit=False)
         # Сохраняем объект в базе данных
         task.save()
-        # form.save_m2m()
-
         # Возвращаем успешный ответ
         return super().form_valid(form)
 
