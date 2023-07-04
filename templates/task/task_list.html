@@ -62,7 +62,7 @@
             <details open>
           
             <summary  title="{{ node.description }}">{{ node.title }}
-              <span  data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="{{ node.id }}" title="добавить задачу"  style="position: absolute; right: 0;">...</span>
+              <span  data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="{{ node.id }}" title="добавить подзадачу к {{ node.title }}"  style="position: absolute; right: 0;"><strong><+++></strong></span>
             </summary>
 
                 <ul class="children">
@@ -75,7 +75,7 @@
             {{ node.title }} 
             <p class="description">
             {{ node.description }}
-              <span  data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="{{ node.id }}" title="добавить задачу"  style="position: absolute; right: 0;">...</span>
+              <span  data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="{{ node.id }}" title="добавить подзадачу к {{ node.title }}"  style="position: absolute; right: 0;"><strong>...</strong></span>
             </p>
             {% endif %}
         </li>

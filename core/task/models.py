@@ -1,8 +1,15 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
 
+from core.account.models import User
+
 
 class Task(MPTTModel):
+    author = models.ForeignKey(
+            User,
+            on_delete=models.CASCADE,
+            related_name='tasks'
+            )
     title = models.CharField(max_length=120)
     description = models.TextField()
     completed = models.BooleanField(default=False)

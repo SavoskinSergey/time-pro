@@ -32,16 +32,16 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(('core.routers', 'core'), namespace="core-api")),
     # path('/', include(('core.routers', 'core'), namespace="core-api")),
-    re_path(r"^account/", include(
+    re_path(r"^accounts/", include(
                                     (account_urls, "account"),
                                     namespace="account")),
-    re_path(r"^employee/", include(
+    re_path(r"^employees/", include(
                                     (employee_urls, "employee"),
                                     namespace="employee")),
-    re_path(r"^project/", include(
+    re_path(r"^projects/", include(
                                     (project_urls, "project"),
                                     namespace="project")),
-    re_path(r"^task/", include(
+    re_path(r"^tasks/", include(
                                     (task_urls, "task"),
                                     namespace="task")),
     path('__debug__/', include('debug_toolbar.urls')),
