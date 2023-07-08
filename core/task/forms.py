@@ -20,7 +20,6 @@ class TaskForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         qs = Task.objects.filter(author=user) if user else Task.objects.none()
         self.fields['parent_manual'].queryset = qs
-        print(user)
 
     def save(self, commit=True):
         instance = super().save(commit=False)
@@ -33,3 +32,13 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ['title', 'description', 'parent_manual', 'amount']
+
+
+class TaskUpdateForm(forms.ModelForm):
+    """
+        Форма редактировани задачи. Берется вся ветка задач.
+        Механика подтягивания родителя зашита в js.
+    """
+    class Meta:
+        model = Task
+        fields = ['title', 'description', 'parent', 'amount']

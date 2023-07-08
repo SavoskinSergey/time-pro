@@ -7,4 +7,8 @@ urlpatterns = [
          views.TaskDetailView.as_view(),
          name='task_detail'
          ),
+    path('update/<int:pk>/',
+         views.TaskUpdateView.as_view(),
+         name='task_update'
+         ),
 ]

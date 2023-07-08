@@ -39,11 +39,13 @@
 <table  class="table">
     <thead>
         <tr>
-          <th  scope="col">#</th>
-          <th  scope="col">Название</th>
-          <th  scope="col">Родитель</th>
-          <th  scope="col">Бюджет</th>
-          <th  scope="col">Детализация</th>
+          <th style="width: 5%;" scope="col">#</th>
+          <th style="width: 10%;" scope="col">Название</th>
+          <th style="width: 15%; font-size: 10px" scope="col">Добавить подзадачу(+)</th>
+          <th style="width: 30%;" scope="col"></th>
+          <th style="width: 5%; text-align: right;" scope="col">Статус</th>
+          <th style="width: 12%; text-align: right;" scope="col">Детализация</th>
+          <th style="width: 2%; text-align: right;" scope="col"></th>
         </tr>
       </thead>
 
@@ -54,34 +56,48 @@
 
 </table>
 {% load mptt_tags %}
+<div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-offset="0" class="scrollspy-example" tabindex="0"
+style="height: 80vh;; overflow-y: scroll;">
+  <ul class="tree">
+      {% recursetree tasks %}
+          <li>
+              {% if not node.is_leaf_node %}
+              <details open>
+            
+              <summary  title="{{ node.description }}">
+                {{ node.title }}
+                
+                <span  data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="{{ node.id }}" title="добавить подзадачу к {{ node.title }}"  class="align-self-end"><strong>&nbsp;&nbsp;&nbsp;&nbsp;(+)</strong></span>
 
-<ul class="tree">
-    {% recursetree tasks %}
-        <li>
-            {% if not node.is_leaf_node %}
-            <details open>
-          
-            <summary  title="{{ node.description }}">{{ node.title }}
-              <span  data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="{{ node.id }}" title="добавить подзадачу к {{ node.title }}"  style="position: absolute; right: 0;"><strong><+++></strong></span>
-            </summary>
 
-                <ul class="children">
-                    {{ children }} 
-                </ul>
+                <span class="left-span" style="position: absolute; right: 12em;" >Span 3</span>
+                <span class="align-self-end">
+                  <a href="{% url 'task:task_detail' node.pk %}" title="подробнее про  {{ node.title }}" style="position: absolute; right: 10px;">Details...</a>
+                </span>
 
-            </details>
-            {% else %}
 
-            {{ node.title }} 
-            <p class="description">
-            {{ node.description }}
-              <span  data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="{{ node.id }}" title="добавить подзадачу к {{ node.title }}"  style="position: absolute; right: 0;"><strong>...</strong></span>
-            </p>
-            {% endif %}
-        </li>
-    {% endrecursetree %}
-</ul>
+              </summary>
 
+                  <ul class="children">
+                      {{ children }} 
+                  </ul>
+
+              </details>
+              {% else %}
+
+              {{ node.title }} 
+              <p class="description" title="добавить подзадачу к {{ node.description }}">
+              {{ node.description|truncatechars:50 }}
+                <span  data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="{{ node.id }}" title="добавить подзадачу к {{ node.title }}"  class="align-self-end">&nbsp;&nbsp;&nbsp;&nbsp; (+) </span>
+                <span class="align-self-end">
+                  <a href="{% url 'task:task_detail' node.pk %}" title="подробнее про {{ node.title }}" style="position: absolute; right: 10px;">...</a>
+                </span>
+              </p>
+              {% endif %}
+          </li>
+      {% endrecursetree %}
+  </ul>
+</div>
 
 <script>
   var modalTrigger = document.getElementById('create_task')

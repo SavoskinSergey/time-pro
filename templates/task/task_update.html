@@ -2,6 +2,14 @@
 
 {% block content %}
 
+  <h1>Update Task</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Update</button>
+  </form>
+  
+
 <h1>{{ object.title }}</h1>
 {% if object.parent %}
     <p>Задача ветки - "
@@ -9,11 +17,8 @@
 {% else %}
     <p>Нет родительской задачи</p>
 {% endif %}
+<p>Бюджет - {{ object.amount }}</p>
 
-        <p>Бюджет - {{ object.amount }}</p>
-
-
-<a href="{% url 'task:task_update' object.pk %}" class="btn btn-primary">Редактировать</a>
 
 
 

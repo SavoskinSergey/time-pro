@@ -1,11 +1,12 @@
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.views.generic import FormView, DetailView
+from django.views.generic import FormView, DetailView, UpdateView
+from django.db.models import Sum
 
 
 from .models import Task
-from .forms import TaskForm
+from .forms import TaskForm, TaskUpdateForm
 
 
 @method_decorator(login_required, name="dispatch")
@@ -40,3 +41,20 @@ class TaskListView(FormView):
 class TaskDetailView(DetailView):
     model = Task
     template_name = 'task/task_detail.html'
+    # children = parent_node.get_descendants(include_self=True)
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     parent_z = self.object
+    #     # children = parent_z.get_descendants(include_self=True)
+        
+    #     # total_amount = children.aggregate(total_amount=Sum('amount'))['total_amount']
+    #     # family = parent_z.get_family()
+    #     return context
+
+
+class TaskUpdateView(UpdateView):
+    model = Task
+    form_class = TaskUpdateForm
+    template_name = 'task/task_update.html'
+    success_url = '/tasks/'
