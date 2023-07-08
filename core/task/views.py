@@ -41,16 +41,20 @@ class TaskListView(FormView):
 class TaskDetailView(DetailView):
     model = Task
     template_name = 'task/task_detail.html'
-    # children = parent_node.get_descendants(include_self=True)
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     parent_z = self.object
-    #     # children = parent_z.get_descendants(include_self=True)
-        
-    #     # total_amount = children.aggregate(total_amount=Sum('amount'))['total_amount']
-    #     # family = parent_z.get_family()
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        parent = self.object
+        children = parent.get_descendants(include_self=True)
+
+        total_amount = children.aggregate(
+                        total_amount=Sum('amount')
+                        )['total_amount']
+        context['budget'] = total_amount
+        family = parent.get_family()
+        context['family'] = family
+
+        return context
 
 
 class TaskUpdateView(UpdateView):

@@ -6,6 +6,9 @@
 {% if object.parent %}
     <p>Задача ветки - "
         <a href="{% url 'task:task_detail' object.parent.id %}">{{ object.parent }}"</a></p>
+        
+        <p> Общий Бюджет ветки - {{ budget }}</p>
+
 {% else %}
     <p>Нет родительской задачи</p>
 {% endif %}
