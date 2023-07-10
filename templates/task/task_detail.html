@@ -1,8 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
+    .status-circle {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+    
+    .status-new {
+        background-color: rgb(99, 99, 229);
+    }
+    
+    .status-in_progress {
+        background-color: rgb(247, 192, 88);
+    }
+    
+    .status-completed {
+        background-color: rgb(8, 171, 8);
+    }
+    
+    .status-deleted {
+        background-color: rgb(177, 173, 173);
+    }
+    }
+</style>
 
 <h1>{{ object.title }}</h1>
+<h6>Описание</h6>
+<p> {{ object.description }}</p>
 {% if object.parent %}
     <p>Задача ветки - "
         <a href="{% url 'task:task_detail' object.parent.id %}">{{ object.parent }}"</a></p>
@@ -13,11 +40,12 @@
     <p>Нет родительской задачи</p>
 {% endif %}
 
-        <p>Бюджет - {{ object.amount }}</p>
+<p>Бюджет - {{ object.amount }}</p>
+
+<p>Статус - <span class="status-circle status-{{ object.status }}"></span> {{ object.get_status_display }}</p>
 
 
 <a href="{% url 'task:task_update' object.pk %}" class="btn btn-primary">Редактировать</a>
-
 
 
 {% endblock %}

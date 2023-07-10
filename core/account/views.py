@@ -33,7 +33,7 @@ def login(request):
     kwargs = {
         "template_name": "account/login.html",
         "authentication_form": LoginForm,
-        "next_page": reverse_lazy('account:home'),
+        "next_page": reverse_lazy('task:tasks'),
         }
     return django_views.LoginView.as_view(**kwargs)(request, **kwargs)
 
@@ -59,7 +59,7 @@ def signup(request):
         if user:
             auth.login(request, user)
         messages.success(request, "User has been created")
-        redirect_url = request.POST.get("next", "account:about")
+        redirect_url = request.POST.get("next", "task:tasks")
         return redirect(redirect_url)
     ctx = {"form": form}
     return TemplateResponse(request, "account/signup.html", ctx)

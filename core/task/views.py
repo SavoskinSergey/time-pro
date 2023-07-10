@@ -43,6 +43,11 @@ class TaskDetailView(DetailView):
     template_name = 'task/task_detail.html'
 
     def get_context_data(self, **kwargs):
+        """Переопределяем контекст. добавляем информацию по родителю.
+        Дополнительно считаем все трудозатраты по ветке родителя.
+        Дополнительно полностью собираем ветку, где родитель будет
+        самым верхним уровнем, тем самым суживаем круг задач.
+        """
         context = super().get_context_data(**kwargs)
         parent = self.object
         children = parent.get_descendants(include_self=True)
@@ -61,4 +66,6 @@ class TaskUpdateView(UpdateView):
     model = Task
     form_class = TaskUpdateForm
     template_name = 'task/task_update.html'
-    success_url = '/tasks/'
+
+    def get_success_url(self):
+        return reverse_lazy('task:task_detail', kwargs={'pk': self.object.pk})

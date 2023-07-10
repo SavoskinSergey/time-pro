@@ -36,9 +36,9 @@ class TaskForm(forms.ModelForm):
 
 class TaskUpdateForm(forms.ModelForm):
     """
-        Форма редактировани задачи. Берется вся ветка задач.
+        Форма редактирования задачи. Берется вся ветка задач.
         Механика подтягивания родителя зашита в js.
     """
     class Meta:
         model = Task
-        fields = ['title', 'description', 'parent', 'amount']
+        fields = ['title', 'description', 'parent', 'status', 'amount']

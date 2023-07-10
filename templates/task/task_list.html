@@ -11,6 +11,27 @@
         z-index    : 1;
         background : rgb(213, 242, 24) url('{% static "images/expand-collapse.svg" %}') 0 0;
       }
+      .status-circle {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+    }
+      .status-new {
+        background-color: rgb(99, 99, 229);
+    }
+    
+    .status-in_progress {
+        background-color: rgb(247, 192, 88);
+    }
+    
+    .status-completed {
+        background-color: rgb(8, 171, 8);
+    }
+    
+    .status-deleted {
+        background-color: rgb(177, 173, 173);
+    }
     </style>
 
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="">
@@ -58,19 +79,19 @@
 {% load mptt_tags %}
 <div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-offset="0" class="scrollspy-example" tabindex="0"
 style="height: 80vh;; overflow-y: scroll;">
-  <ul class="tree">
+  <ul class="tree ">
       {% recursetree tasks %}
           <li>
               {% if not node.is_leaf_node %}
               <details open>
             
-              <summary  title="{{ node.description }}">
+              <summary class="status-{{ object.status }}" title="{{ node.description }}">
                 {{ node.title }}
                 
                 <span  data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="{{ node.id }}" title="добавить подзадачу к {{ node.title }}"  class="align-self-end"><strong>&nbsp;&nbsp;&nbsp;&nbsp;(+)</strong></span>
 
 
-                <span class="left-span" style="position: absolute; right: 12em;" >Span 3</span>
+                <span class="left-span" style="position: absolute; right: 12em;" >{{ node.get_status_display }}&nbsp;&nbsp;<span class="status-circle status-{{ node.status }}"></span></span>
                 <span class="align-self-end">
                   <a href="{% url 'task:task_detail' node.pk %}" title="подробнее про  {{ node.title }}" style="position: absolute; right: 10px;">Details...</a>
                 </span>
@@ -86,9 +107,17 @@ style="height: 80vh;; overflow-y: scroll;">
               {% else %}
 
               {{ node.title }} 
+              <span class="left-span" style="position: absolute; right: 12em;" >
+                {{ node.get_status_display }}&nbsp;&nbsp;
+                
+                <span class="status-circle status-{{ node.status }}"></span>
+              </span>
               <p class="description" title="добавить подзадачу к {{ node.description }}">
+
+
               {{ node.description|truncatechars:50 }}
                 <span  data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="{{ node.id }}" title="добавить подзадачу к {{ node.title }}"  class="align-self-end">&nbsp;&nbsp;&nbsp;&nbsp; (+) </span>
+ 
                 <span class="align-self-end">
                   <a href="{% url 'task:task_detail' node.pk %}" title="подробнее про {{ node.title }}" style="position: absolute; right: 10px;">...</a>
                 </span>
