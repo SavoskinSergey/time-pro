@@ -41,4 +41,5 @@ class TaskUpdateForm(forms.ModelForm):
     """
     class Meta:
         model = Task
-        fields = ['title', 'description', 'parent', 'status', 'amount']
+        fields = ['title', 'description', 'parent',
+                  'status', 'amount', 'charge']

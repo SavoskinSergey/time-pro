@@ -31,6 +31,8 @@ class Task(MPTTModel):
         related_name='children'
         )
     amount = models.DecimalField(max_digits=10, decimal_places=1)
+    charge = models.DecimalField(max_digits=10, decimal_places=1,
+                                 default=0, blank=True)
 
     class MPTTMeta:
         order_insertion_by = ['title']

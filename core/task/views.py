@@ -49,14 +49,19 @@ class TaskDetailView(DetailView):
         самым верхним уровнем, тем самым суживаем круг задач.
         """
         context = super().get_context_data(**kwargs)
-        parent = self.object
+        parent = self.object.parent
         children = parent.get_descendants(include_self=True)
 
         total_amount = children.aggregate(
                         total_amount=Sum('amount')
                         )['total_amount']
+        total_charge = children.aggregate(
+                        total_amount=Sum('charge')
+                        )['total_amount']
         context['budget'] = total_amount
-        family = parent.get_family()
+        context['charge'] = total_charge
+        family = parent.parent.get_descendants()
+        print(family)
         context['family'] = family
 
         return context

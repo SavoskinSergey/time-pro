@@ -7,29 +7,34 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               {% with request.resolver_match.view_name as view_name %}
+                
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'backend:home' %}">Home</a>
+                  <a class="nav-link" href="{% url 'task:tasks' %}">Задачи</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:home' %}">About</a>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'employee:employees' %}">Сотрудники</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'project:projects' %}">Проекты</a>
                 </li>
-                
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'task:tasks' %}">Задачи</a>
-               </li>
-
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'project:time_entry' %}">Списания времени</a>
                 </li>
+
+            </ul>
+        </div>
+        <div class="d-flex" id="navbarNav">
+            <ul class="navbar-nav justify-content-center float-md-end">
+              
+
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'backend:home' %}">О системе</a>
+                </li>
+
                 <li class="nav-item">
                     {% if user.is_authenticated %}
-                        <p class="nav-link">{{ user.username }}</p>
+                        <p class="nav-link"><b>{{ user.username }} </b>&nbsp;&nbsp;&nbsp;&nbsp; </p>
                     {% endif %}
                 </h1>
 
@@ -38,8 +43,8 @@
                     <a>
                     {% comment %} <a class="nav-link {% if view_name  == 'posts:post_create' %}active{% endif %}" 
                     href="{% url 'posts:post_create' %}"
-                    > {% endcomment %}
-                    Новая запись
+                    > 
+                    Новая запись{% endcomment %}
                     </a>
                 </li>
 
@@ -47,8 +52,8 @@
                     <a>
                     {% comment %} <a class="nav-link {% if view_name  == 'users:change_psw' %}active{% endif %}" 
             
-                    > {% endcomment %}
-                    Изменить пароль
+                    > 
+                    Изменить пароль{% endcomment %}
                     </a>
                 </li>
                 <li class="nav-item"> 

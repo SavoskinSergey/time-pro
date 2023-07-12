@@ -7,11 +7,9 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-md-0">
       {% with request.resolver_match.view_name as view_name %}
+
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'backend:home' %}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'account:home' %}">About</a>
+          <a class="nav-link" href="{% url 'task:tasks' %}">Приступить к задачам</a>
         </li>
       {% endwith %} 
       </ul>
@@ -22,17 +20,12 @@
       {% with request.resolver_match.view_name as view_name %}
         <li class="nav-item">
         {% if user.is_authenticated %}
-          <a class="nav-link"> Добро пожаловать {{ user.username }}</a>
+          <a class="nav-link"> Добро пожаловать &nbsp;&nbsp; <b>{{ user.username }} </b>&nbsp;&nbsp;&nbsp;&nbsp; </a>
         {% endif %}
         </li>
         
         {% if user.is_authenticated %}
-        <li class="nav-item">
-          <a>Изменить пароль
-            {% comment %} <a class="nav-link {% if view_name  == 'users:change_psw' %}active{% endif %}" 
-            > {% endcomment %}
-          </a>
-        </li>
+
         <li class="nav-item"> 
           <a class="nav-link {% if view_name  == 'account:logout' %}active{% endif %}" 
             href="{% url 'account:logout' %}"

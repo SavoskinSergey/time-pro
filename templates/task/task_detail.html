@@ -1,15 +1,24 @@
 {% extends 'base.html' %}
 
+{% load static %}
 {% block content %}
-<style>
-    .status-circle {
+
+
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet"  href="{% static 'task_list.css' %}" >
+    <style>
+      .tree summary::before{
+        z-index    : 1;
+        background : rgb(213, 242, 24) url('{% static "images/expand-collapse.svg" %}') 0 0;
+      }
+      .status-circle {
         display: inline-block;
         width: 12px;
         height: 12px;
         border-radius: 50%;
     }
-    
-    .status-new {
+      .status-new {
         background-color: rgb(99, 99, 229);
     }
     
@@ -24,8 +33,8 @@
     .status-deleted {
         background-color: rgb(177, 173, 173);
     }
-    }
-</style>
+    </style>
+
 
 <h1>{{ object.title }}</h1>
 <h6>Описание</h6>
@@ -34,7 +43,7 @@
     <p>Задача ветки - "
         <a href="{% url 'task:task_detail' object.parent.id %}">{{ object.parent }}"</a></p>
         
-        <p> Общий Бюджет ветки - {{ budget }}</p>
+        <p> Общий Бюджет ветки - {{ budget }}&nbsp;&nbsp;Всего потрачено времени - {{ charge }}</p>
 
 {% else %}
     <p>Нет родительской задачи</p>
@@ -46,6 +55,71 @@
 
 
 <a href="{% url 'task:task_update' object.pk %}" class="btn btn-primary">Редактировать</a>
+
+<hr class="featurette-divider">
+
+{% load mptt_tags %}
+<div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-offset="0" class="scrollspy-example" tabindex="0"
+style="height: 80vh;; overflow-y: scroll;">
+  <ul class="tree ">
+      {% recursetree family %}
+          <li>
+              {% if not node.is_leaf_node %}
+              <details open>
+            
+              <summary  title="{{ node.description }}">
+                {{ node.title }}
+                
+                <span  data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="{{ node.id }}" title="добавить подзадачу к {{ node.title }}"  class="align-self-end"><strong>&nbsp;&nbsp;&nbsp;&nbsp;(+)</strong></span>
+
+
+                <span class="left-span" style="position: absolute; right: 12em;" >{{ node.get_status_display }}&nbsp;&nbsp;
+                    <span class="status-circle status-{{ node.status }}"></span>
+                    <span style="position: absolute; right: -5em;">
+                        <span> {{ node.amount }} /</span>
+                        <span> {{ node.charge }}</span>
+                    </span>
+                </span>
+                <span class="align-self-end">
+                  <a href="{% url 'task:task_detail' node.pk %}" title="подробнее про  {{ node.title }}" style="position: absolute; right: 10px;">Details...</a>
+                </span>
+
+
+              </summary>
+
+                  <ul class="children">
+                      {{ children }} 
+                  </ul>
+
+              </details>
+              {% else %}
+
+              {{ node.title }} 
+              <span class="left-span" style="position: absolute; right: 12em;" >
+                {{ node.get_status_display }}&nbsp;&nbsp;
+                
+                <span class="status-circle status-{{ node.status }}"></span>
+                <span style="position: absolute; right: -5em;">
+                    <span> {{ node.amount }} /</span>
+                    <span> {{ node.charge }}</span>
+                </span>
+              </span>
+              <p class="description" title="добавить подзадачу к {{ node.description }}">
+
+
+              {{ node.description|truncatechars:50 }}
+                <span  data-bs-toggle="modal" data-bs-target="#create_task" data-bs-whatever="{{ node.id }}" title="добавить подзадачу к {{ node.title }}"  class="align-self-end">&nbsp;&nbsp;&nbsp;&nbsp; (+) </span>
+ 
+                <span class="align-self-end">
+                  <a href="{% url 'task:task_detail' node.pk %}" title="подробнее про {{ node.title }}" style="position: absolute; right: 10px;">...</a>
+                </span>
+              </p>
+              {% endif %}
+          </li>
+      {% endrecursetree %}
+  </ul>
+</div>
+
 
 
 {% endblock %}
