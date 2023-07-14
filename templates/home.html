@@ -1,5 +1,5 @@
 {% extends "base_landing.html" %}
-
+{% load static %}
 {% block content %}
 
     <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -10,35 +10,44 @@
       </div>
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+          <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+            
+            <img src="{% get_media_prefix %}images/advice.jpg" alt="Cл1" width="100%" height="100%" >
+            
+          </svg>
   
           <div class="container">
             <div class="carousel-caption text-start">
-              <h1>Example headline.</h1>
-              <p>Some representative placeholder content for the first slide of the carousel.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">Sign up today</a></p>
+              <h1>Управление Командой:</h1>
+              <p>Предоставляем инструменты для коммуникации и совместной работы внутри команды.</p>
+              <p><a class="btn btn-lg btn-secondary" href="{% url 'task:tasks' %}">Подробнее</a></p>
             </div>
           </div>
         </div>
         <div class="carousel-item">
-          <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+          <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        
+            <img src="{% get_media_prefix %}images/diagramma.jpg" alt="Cл1" width="100%" height="100%" >
+          </svg>
   
           <div class="container">
             <div class="carousel-caption">
-              <h1>Another example headline.</h1>
-              <p>Some representative placeholder content for the second slide of the carousel.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">Learn more</a></p>
+              <h1>Учет времени и отслеживание рабочего времени:</h1>
+              <p>Позволяет участникам команды отслеживать затраченное время на выполнение задач, вносить отчеты о рабочем времени и анализировать затраты времени</p>
+              <p><a class="btn btn-lg btn-secondary" href="{% url 'task:tasks' %}">Начать работу</a></p>
             </div>
           </div>
         </div>
         <div class="carousel-item">
-          <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"/></svg>
+          <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <img src="{% get_media_prefix %}images/report.jpg" alt="Cл1" width="100%" height="100%" >
+          </svg>
   
           <div class="container">
             <div class="carousel-caption text-end">
-              <h1>One more for good measure.</h1>
-              <p>Some representative placeholder content for the third slide of this carousel.</p>
-              <p><a class="btn btn-lg btn-primary" href="#">Browse gallery</a></p>
+              <h1>Мониторинг и отчетность:</h1>
+              <p>Позволяет отслеживать прогресс работы команды, анализировать данные о выполнении задач, состоянии проекта и производительности команды.</p>
+              <p><a class="btn btn-lg btn-secondary" href="{% url 'task:tasks' %}">Перейти к задачам</a></p>
             </div>
           </div>
         </div>
@@ -63,22 +72,45 @@
       <!-- Three columns of text below the carousel -->
       <div class="row">
         <div class="col-lg-4">
-          <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-  
-          <h2>Управление прокетами</h2>
+
+          <svg  class="bd-placeholder-img rounded-circle" xmlns="http://www.w3.org/2000/svg" width="140" height="140">
+            <circle cx="100" cy="100" r="80" fill="none" stroke="red" stroke-width="2" />
+            <image xlink:href="{% get_media_prefix %}images/plan.jpg" x="-50" y="0" width="240" height="140" />
+            <defs>
+              <clipPath id="circle-clip">
+                <circle cx="100" cy="100" r="60" />
+              </clipPath>
+            </defs>
+          </svg>
+          <h2>Управление проектами</h2>
           <p>Инструмент для создания задач и подзадач внутри проектов, разделять проект на более мелкие части, определять ответственных исполнителей, назначать сроки выполнения и отслеживать прогресс </p>
           <p><a class="btn btn-secondary" href="{% url 'task:tasks' %}">Подробнее &raquo;</a></p>
         </div><!-- /.col-lg-4 -->
+
         <div class="col-lg-4">
-          <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-  
+          <svg  class="bd-placeholder-img rounded-circle" xmlns="http://www.w3.org/2000/svg" width="140" height="140">
+            <circle cx="100" cy="100" r="80" fill="none" stroke="red" stroke-width="2" />
+            <image xlink:href="{% get_media_prefix %}images/meeting.jpg" x="-180" y="-80" width="350" height="250" />
+            <defs>
+              <clipPath id="circle-clip">
+                <circle cx="100" cy="100" r="60" />
+              </clipPath>
+            </defs>
+          </svg>
           <h2>Управление Командой</h2>
           <p>Управление участниками команды: Позволяет создавать профили участников команды, определять их роли, назначать ответственность за определенные задачи и устанавливать уровень доступа.</p>
           <p><a class="btn btn-secondary" href="{% url 'task:tasks' %}">Подробнее &raquo;</a></p>
         </div><!-- /.col-lg-4 -->
         <div class="col-lg-4">
-          <svg class="bd-placeholder-img rounded-circle" width="140" height="140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 140x140" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#777"/><text x="50%" y="50%" fill="#777" dy=".3em">140x140</text></svg>
-  
+          <svg  class="bd-placeholder-img rounded-circle" xmlns="http://www.w3.org/2000/svg" width="140" height="140">
+            <circle cx="100" cy="100" r="80" fill="none" stroke="red" stroke-width="2" />
+            <image xlink:href="{% get_media_prefix %}images/charts.jpg" x="-50" y="0" width="240" height="140" />
+            <defs>
+              <clipPath id="circle-clip">
+                <circle cx="100" cy="100" r="60" />
+              </clipPath>
+            </defs>
+          </svg>
           <h2>Учёт трудозатрат</h2>
           <p>Инструмент позволяет отслеживать и учитывать затраты времени и ресурсов. Эффективный мониторинг рабочего времени, распределение ресурсов и анализ затрат </p>
           <p><a class="btn btn-secondary" href="{% url 'task:tasks' %}">Подробнее &raquo;</a></p>
@@ -96,7 +128,11 @@
           <p class="lead">Позволяет создавать новые проекты в системе, определять их название, описание, сроки выполнения и другую сопутствующую информацию</p>
         </div>
         <div class="col-md-5">
-          <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
+          <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Placeholder</title>
+            <image xlink:href="{% get_media_prefix %}images/work.jpg" width="100%" height="100%" />
+            <text x="50%" y="50%" fill="#aaa" dy=".3em"></text>
+          </svg>
   
         </div>
       </div>
@@ -109,8 +145,11 @@
           <p class="lead">Позволяет создавать задачи и подзадачи внутри проектов, разделять проект на более мелкие части, определять ответственных исполнителей, назначать сроки выполнения и отслеживать прогресс</p>
         </div>
         <div class="col-md-5 order-md-1">
-          <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-  
+          <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Placeholder</title>
+            <image xlink:href="{% get_media_prefix %}images/book.jpg" width="100%" height="100%" />
+            <text x="50%" y="50%" fill="#aaa" dy=".3em"></text>
+          </svg>
         </div>
       </div>
   
@@ -122,8 +161,11 @@
           <p class="lead">Управление участниками команды: Позволяет создавать профили участников команды, определять их роли, назначать ответственность за определенные задачи и устанавливать уровень доступа</p>
         </div>
         <div class="col-md-5">
-          <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-  
+          <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Placeholder</title>
+            <image xlink:href="{% get_media_prefix %}images/meeting.jpg" width="100%" height="100%" />
+            <text x="50%" y="50%" fill="#aaa" dy=".3em"></text>
+          </svg>
         </div>
       </div>
   
@@ -135,8 +177,11 @@
           <p class="lead">Учет времени и отслеживание рабочего времени: Позволяет участникам команды отслеживать затраченное время на выполнение задач, вносить отчеты о рабочем времени и анализировать затраты времени для оптимизации процессов работы</p>
         </div>
         <div class="col-md-5 order-md-1">
-          <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em">500x500</text></svg>
-  
+          <svg class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Placeholder</title>
+            <image xlink:href="{% get_media_prefix %}images/diagramma.jpg" width="100%" height="100%" />
+            <text x="50%" y="50%" fill="#aaa" dy=".3em"></text>
+          </svg>
         </div>
       </div>
   

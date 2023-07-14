@@ -166,7 +166,7 @@ STATIC_URL = "static/"
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media_store'
+MEDIA_ROOT = BASE_DIR / 'media'
 # Default avatar URL
 
 DEFAULT_AVATAR_URL = 'https://avatars.dicebear.com/api/identicon/.svg'

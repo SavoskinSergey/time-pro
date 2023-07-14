@@ -133,3 +133,5 @@ media_store/
 static_store/
 media/
 static/
+
+core/task/management/

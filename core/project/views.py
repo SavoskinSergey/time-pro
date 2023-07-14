@@ -61,7 +61,7 @@ delta_week = timedelta(days=6)
 year = date.today().year
 week_begin = today - delta
 week_end = week_begin + delta_week
-print('dya', today,day_of_week, week_begin, week_end)
+# print('dya', today,day_of_week, week_begin, week_end)
 
 
 class TimeEntryListView(FormView):

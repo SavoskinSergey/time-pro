@@ -54,7 +54,7 @@
 <p>Статус - <span class="status-circle status-{{ object.status }}"></span> {{ object.get_status_display }}</p>
 
 
-<a href="{% url 'task:task_update' object.pk %}" class="btn btn-primary">Редактировать</a>
+<a href="{% url 'task:task_update' object.pk %}" class="btn btn-secondary">Редактировать "{{ object.title }}"</a>
 
 <hr class="featurette-divider">
 

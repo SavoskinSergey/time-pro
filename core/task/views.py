@@ -50,19 +50,20 @@ class TaskDetailView(DetailView):
         """
         context = super().get_context_data(**kwargs)
         parent = self.object.parent
-        children = parent.get_descendants(include_self=True)
+        if parent is not None:
+            family = parent.get_descendants(include_self=True)
 
-        total_amount = children.aggregate(
-                        total_amount=Sum('amount')
-                        )['total_amount']
-        total_charge = children.aggregate(
-                        total_amount=Sum('charge')
-                        )['total_amount']
-        context['budget'] = total_amount
-        context['charge'] = total_charge
-        family = parent.parent.get_descendants()
-        print(family)
-        context['family'] = family
+            total_amount = family.aggregate(
+                            total_amount=Sum('amount')
+                            )['total_amount']
+            total_charge = family.aggregate(
+                            total_amount=Sum('charge')
+                            )['total_amount']
+            context['budget'] = total_amount
+            context['charge'] = total_charge
+            context['family'] = family
+        else:
+            context['family'] = self.object.get_descendants(include_self=True)
 
         return context
 
