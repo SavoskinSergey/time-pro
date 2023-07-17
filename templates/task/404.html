@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="text-center mt-5">
+          <h1 class="display-4">404</h1>
+          <p class="lead">Страница не найдена</p>
+          <a href="{% url 'task:tasks' %}" class="btn btn-primary">Вернуться к задачам</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

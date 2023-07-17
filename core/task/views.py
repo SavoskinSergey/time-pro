@@ -4,10 +4,19 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.utils.decorators import method_decorator
 from django.views.generic import FormView, DetailView, UpdateView
 from django.db.models import Sum
+from django.shortcuts import render
 
 
 from .models import Task
 from .forms import TaskForm, TaskUpdateForm
+
+
+def handler404(request, exception):
+    return render(request, 'task/404.html', status=404)
+
+
+def handler403(request, exception):
+    return render(request, 'task/403.html', status=403)
 
 
 @method_decorator(login_required, name="dispatch")
@@ -47,6 +56,7 @@ class TaskDetailView(UserPassesTestMixin, DetailView):
     def test_func(self):
         # Проверяем, является ли текущий пользователь автором объекта
         obj = self.get_object()
+        print(obj)
         return obj.author == self.request.user
 
     def get_context_data(self, **kwargs):

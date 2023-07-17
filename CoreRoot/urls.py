@@ -25,6 +25,11 @@ from core.employee.urls import urlpatterns as employee_urls
 from core.project.urls import urlpatterns as project_urls
 from core.task.urls import urlpatterns as task_urls
 
+
+
+handler404 = 'core.task.views.handler404'
+handler403 = 'core.task.views.handler403'
+
 urlpatterns = [
     re_path(r'^', include(
                             (backend_urls, 'backend'),
