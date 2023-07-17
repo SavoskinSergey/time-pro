@@ -1,5 +1,6 @@
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.utils.decorators import method_decorator
 from django.views.generic import FormView, DetailView, UpdateView
 from django.db.models import Sum
@@ -38,9 +39,15 @@ class TaskListView(FormView):
         return super().form_valid(form)
 
 
-class TaskDetailView(DetailView):
+@method_decorator(login_required, name="dispatch")
+class TaskDetailView(UserPassesTestMixin, DetailView):
     model = Task
     template_name = 'task/task_detail.html'
+
+    def test_func(self):
+        # Проверяем, является ли текущий пользователь автором объекта
+        obj = self.get_object()
+        return obj.author == self.request.user
 
     def get_context_data(self, **kwargs):
         """Переопределяем контекст. добавляем информацию по родителю.
@@ -50,7 +57,7 @@ class TaskDetailView(DetailView):
         """
         context = super().get_context_data(**kwargs)
         parent = self.object.parent
-        if parent is not None:
+        if parent is not None and self.test_func():
             family = parent.get_descendants(include_self=True)
 
             total_amount = family.aggregate(
@@ -68,10 +75,16 @@ class TaskDetailView(DetailView):
         return context
 
 
-class TaskUpdateView(UpdateView):
+@method_decorator(login_required, name="dispatch")
+class TaskUpdateView(UserPassesTestMixin, UpdateView):
     model = Task
     form_class = TaskUpdateForm
     template_name = 'task/task_update.html'
+
+    def test_func(self):
+        # Проверяем, является ли текущий пользователь автором объекта
+        obj = self.get_object()
+        return obj.author == self.request.user
 
     def get_success_url(self):
         return reverse_lazy('task:task_detail', kwargs={'pk': self.object.pk})

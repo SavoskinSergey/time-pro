@@ -10,16 +10,4 @@
   </form>
   
 
-<h1>{{ object.title }}</h1>
-{% if object.parent %}
-    <p>Задача ветки - "
-        <a href="{% url 'task:task_detail' object.parent.id %}">{{ object.parent }}"</a></p>
-{% else %}
-    <p>Нет родительской задачи</p>
-{% endif %}
-<p>Бюджет - {{ object.amount }}</p>
-
-
-
-
 {% endblock %}

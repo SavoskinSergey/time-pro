@@ -135,3 +135,4 @@ media/
 static/
 
 core/task/management/
+templates/task/task_list copy.html
