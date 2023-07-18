@@ -1,6 +1,7 @@
 from datetime import date
 from django.db import models
 from core.abstract.models import AbstractModel, AbstractManager
+from core.account.models import User
 from core.employee.models import Employee
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -10,6 +11,12 @@ class ProjectManager(AbstractManager):
 
 
 class Project(AbstractModel):
+    account = models.ForeignKey(
+            User,
+            on_delete=models.CASCADE,
+            related_name='projects',
+            default=1
+            )
     title = models.CharField(max_length=255)
     counterparty = models.CharField(max_length=50)
     stage = models.CharField(max_length=50)

@@ -1,4 +1,6 @@
 from django.views.generic import ListView
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.utils.decorators import method_decorator
 from django.contrib import auth, messages
 from django.contrib.auth import views as django_views
 from django.contrib.auth.decorators import login_required
@@ -17,10 +19,16 @@ from .forms import (
 from .models import User
 
 
-class AccountListView(ListView):
+
+@method_decorator(login_required, name="dispatch") 
+class AccountListView(UserPassesTestMixin, ListView):
     model = User
     template_name = 'account/account_list.html'
     context_object_name = 'accounts'
+
+    def test_func(self):
+        # Проверяем, является ли текущий пользователь админом проекта
+        return self.request.user.is_superuser
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

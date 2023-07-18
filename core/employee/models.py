@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from core.abstract.models import AbstractModel, AbstractManager
+from core.account.models import User
 
 
 def user_directory_path(instance, filename):
@@ -9,6 +10,12 @@ def user_directory_path(instance, filename):
 
 
 class Department(models.Model):
+    account = models.ForeignKey(
+            User,
+            on_delete=models.CASCADE,
+            related_name='departments',
+            default=1
+            )
     name = models.CharField(max_length=255, verbose_name=_('name'))
     description = models.TextField(blank=True)
 
@@ -25,6 +32,12 @@ class EmployeeManager(AbstractManager):
 
 
 class Employee(AbstractModel):
+    account = models.ForeignKey(
+            User,
+            on_delete=models.CASCADE,
+            related_name='employees',
+            default=1
+            )
     employee = models.CharField(db_index=True, max_length=50, unique=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)

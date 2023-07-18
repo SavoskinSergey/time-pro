@@ -17,7 +17,7 @@
           <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            {% comment %} <button type="submit" class="btn btn-primary">Создать</button> {% endcomment %}
+            <button type="submit" class="btn btn-primary">Создать</button>
           </form>
       </div>
     </div>
@@ -34,6 +34,7 @@
           <th  scope="col">Бюджет</th>
           <th  scope="col">Общие затраты</th>
           <th  scope="col">Детализация</th>
+          <th  scope="col">Автор</th>
         </tr>
       </thead>
 <tbody>
@@ -50,6 +51,7 @@
     <td><a href>
       <a href="{% url 'project:project_detail' project.id %}"> ...</a>
     </td>
+    <td>{{ project.account }}</td>
   </tr>
 {% empty %}
     <li>No projects yet.</li>

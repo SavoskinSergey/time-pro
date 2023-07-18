@@ -5,7 +5,8 @@ from .models import Project, TimeEntry
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = '__all__'
+        fields = ['title', 'counterparty', 'stage', 'budget',
+                  'responsible', 'is_active', 'note', 'members']
 
 
 class TimeEntryForm(forms.ModelForm):

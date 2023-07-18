@@ -17,7 +17,7 @@
           <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            {% comment %} <button type="submit" class="btn btn-primary">Списать</button> {% endcomment %}
+            <button type="submit" class="btn btn-primary">Списать</button>
           </form>
       </div>
     </div>
@@ -85,7 +85,7 @@
 
 </tbody>
 </table>
-<button id="excelHtml5"> exel</button>
+{% comment %} <button id="excelHtml5"> excel</button> {% endcomment %}
 
 
 {% endblock %}

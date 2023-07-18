@@ -1,12 +1,15 @@
 import datetime
 from django.urls import reverse_lazy
 from django.views.generic import FormView, DetailView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from .models import Project, TimeEntry
 from .forms import ProjectForm, TimeEntryForm
 
 
-class ProjectListView(FormView):
+@method_decorator(login_required, name="dispatch")
+class ProjectListView( FormView):
     model = Project
     template_name = 'project/project_list.html'
     context_object_name = 'projects'
@@ -16,13 +19,15 @@ class ProjectListView(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['projects'] = (
-            Project.objects
-            .all()
+            Project.objects.filter(account=self.request.user.id)
+            .prefetch_related('account')
         )
         return context
 
+
     def form_valid(self, form):
         # Создаем новый объект project, используя данные из формы
+        form.instance.account = self.request.user
         project = form.save(commit=False)
         # Сохраняем объект в базе данных
         project.save()
@@ -32,6 +37,7 @@ class ProjectListView(FormView):
         return super().form_valid(form)
 
 
+@method_decorator(login_required, name="dispatch")
 class ProjectDetailView(DetailView):
     model = Project
     template_name = 'project/project_detail.html'
@@ -64,6 +70,7 @@ week_end = week_begin + delta_week
 # print('dya', today,day_of_week, week_begin, week_end)
 
 
+@method_decorator(login_required, name="dispatch")
 class TimeEntryListView(FormView):
     model = TimeEntry
     template_name = 'project/time_entry_list.html'

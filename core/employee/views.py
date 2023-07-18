@@ -1,10 +1,13 @@
 from django.urls import reverse_lazy
 from django.views.generic import FormView
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from .models import Employee
 from .forms import EmployeeForm
 
 
+@method_decorator(login_required, name="dispatch")
 class EmployeeListView(FormView):
     model = Employee
     template_name = 'employee/employee_list.html'
@@ -15,7 +18,7 @@ class EmployeeListView(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['employees'] = (
-            Employee.objects
+            Employee.objects.filter(account=self.request.user.id)
             .select_related('department')
             .all()
         )
