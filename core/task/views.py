@@ -56,7 +56,6 @@ class TaskDetailView(UserPassesTestMixin, DetailView):
     def test_func(self):
         # Проверяем, является ли текущий пользователь автором объекта
         obj = self.get_object()
-        print(obj)
         return obj.author == self.request.user
 
     def get_context_data(self, **kwargs):

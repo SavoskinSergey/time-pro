@@ -17,10 +17,17 @@ from .forms import (
     # logout_on_password_change,
 )
 from .models import User
+from ...CoreRoot.settings import EMAIL_HOST_USER
+
+from django.core.mail import send_mail
 
 
+def send_email(subject, message, recipient_list):
+    sender_email = EMAIL_HOST_USER
+    send_mail(subject, message, sender_email, recipient_list)
 
-@method_decorator(login_required, name="dispatch") 
+
+@method_decorator(login_required, name="dispatch")
 class AccountListView(UserPassesTestMixin, ListView):
     model = User
     template_name = 'account/account_list.html'
@@ -58,7 +65,7 @@ def signup(request):
     if form.is_valid():
         form.save()
         password = form.cleaned_data.get("password")
-        # email = form.cleaned_data.get("email")
+        email = form.cleaned_data.get("email")
         username = form.cleaned_data.get("username")
         user = auth.authenticate(
             request=request,
@@ -67,6 +74,11 @@ def signup(request):
         if user:
             auth.login(request, user)
         messages.success(request, "User has been created")
+        subject = 'Успешная регистрация в сервисе TimePro'
+        message = f'Ваш аккаунт {username} успешно зарегистрирован'
+        recipient_list = [email]
+        send_email(subject, message, recipient_list)
+
         redirect_url = request.POST.get("next", "task:tasks")
         return redirect(redirect_url)
     ctx = {"form": form}
