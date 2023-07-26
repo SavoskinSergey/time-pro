@@ -17,17 +17,16 @@ from .forms import (
     # logout_on_password_change,
 )
 from .models import User
-from ...CoreRoot.settings import EMAIL_HOST_USER
 
 from django.core.mail import send_mail
 
 
 def send_email(subject, message, recipient_list):
-    sender_email = EMAIL_HOST_USER
+    sender_email = 'timepro.online@gmail.com'
     send_mail(subject, message, sender_email, recipient_list)
 
 
-@method_decorator(login_required, name="dispatch")
+@method_decorator(login_required, name="dispatch") 
 class AccountListView(UserPassesTestMixin, ListView):
     model = User
     template_name = 'account/account_list.html'
