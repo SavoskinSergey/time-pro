@@ -22,7 +22,7 @@ from django.core.mail import send_mail
 
 
 def send_email(subject, message, recipient_list):
-    sender_email = 'timepro.online@mail.ru'
+    sender_email = 'timepro.online@gmail.com'
     send_mail(subject, message, sender_email, recipient_list)
 
 
