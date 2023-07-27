@@ -19,14 +19,15 @@ from .forms import (
 from .models import User
 
 from django.core.mail import send_mail
+from django.conf import settings
 
 
 def send_email(subject, message, recipient_list):
-    sender_email = 'timepro.online@gmail.com'
+    sender_email = settings.EMAIL_HOST_USER
     send_mail(subject, message, sender_email, recipient_list)
 
 
-@method_decorator(login_required, name="dispatch") 
+@method_decorator(login_required, name="dispatch")
 class AccountListView(UserPassesTestMixin, ListView):
     model = User
     template_name = 'account/account_list.html'

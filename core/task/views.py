@@ -49,14 +49,32 @@ class TaskListView(FormView):
 
 
 @method_decorator(login_required, name="dispatch")
-class TaskDetailView(UserPassesTestMixin, DetailView):
+class TaskDetailView(UserPassesTestMixin, DetailView, FormView):
     model = Task
     template_name = 'task/task_detail.html'
+    form_class = TaskForm
 
     def test_func(self):
         # Проверяем, является ли текущий пользователь автором объекта
         obj = self.get_object()
         return obj.author == self.request.user
+
+    def get_success_url(self):
+        return reverse_lazy('task:task_detail', kwargs={'pk': self.get_object().pk})
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        # Создаем новый объект task, используя данные из формы
+        form.instance.author = self.request.user
+        task = form.save(commit=False)
+        # Сохраняем объект в базе данных
+        task.save()
+        # Возвращаем успешный ответ
+        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         """Переопределяем контекст. добавляем информацию по родителю.
