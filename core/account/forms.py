@@ -2,7 +2,7 @@
 from django import forms
 # from django.conf import settings
 from django.contrib.auth import forms as django_forms
-from django.urls import reverse_lazy
+# from django.urls import reverse_lazy
 # , update_session_auth_hash
 # from phonenumbers.phonenumberutil import country_code_for_region
 
@@ -10,8 +10,7 @@ from django.urls import reverse_lazy
 from ..account.models import User
 # from ..extensions.manager import get_extensions_manager
 # from . import emails
-# from .i18n import AddressMetaForm, get_address_form_class
-
+from django.core.exceptions import ValidationError
 
 # class FormWithReCaptcha(forms.BaseForm):
 #     def __new__(cls, *args, **kwargs):
@@ -23,7 +22,8 @@ from ..account.models import User
 #         return super(FormWithReCaptcha, cls).__new__(cls)
 
 
-# def get_address_form(data, country_code, initial=None, instance=None, **kwargs):
+# def get_address_form(data, country_code, initial=None,
+#  instance=None, **kwargs):
 #     country_form = AddressMetaForm(data, initial=initial)
 #     preview = False
 #     if country_form.is_valid():
@@ -33,8 +33,8 @@ from ..account.models import User
 #     if initial is None and country_code:
 #         initial = {}
 #     if country_code:
-#         initial["phone"] = "+{}".format(country_code_for_region(country_code))
-
+#         initial["phone"] = "+{}".format(country_code_for
+# _region(country_code))
 #     address_form_class = get_address_form_class(country_code)
 
 #     if not preview and instance is not None:
@@ -42,7 +42,9 @@ from ..account.models import User
 #         address_form = address_form_class(data, instance=instance, **kwargs)
 #     else:
 #         initial_address = (
-#             initial if not preview else data.dict() if data is not None else data
+#             initial if not preview else data.dict() if data
+# is not
+# None else data
 #         )
 #         address_form = address_form_class(
 #             not preview and data or None, initial=initial_address, **kwargs
@@ -65,9 +67,9 @@ from ..account.models import User
 
 
 # def logout_on_password_change(request, user):
-#     if update_session_auth_hash is not None and not settings.LOGOUT_ON_PASSWORD_CHANGE:
+#     if update_session_auth_hash is not None and not
+# settings.LOGOUT_ON_PASSWORD_CHANGE:
 #         update_session_auth_hash(request, user)
-
 
 class LoginForm(django_forms.AuthenticationForm):
     username = forms.CharField(label="Имя пользователя", max_length=75)
@@ -79,6 +81,8 @@ class LoginForm(django_forms.AuthenticationForm):
             if username:
                 self.fields["username"].initial = username
 
+# class PasswordUpdateManuallyForm(django_forms.PasswordChangeForm):
+
 
 class SignupForm(forms.ModelForm):
     password = forms.CharField(
@@ -88,13 +92,14 @@ class SignupForm(forms.ModelForm):
         label="Email",
         error_messages={
             "unique":
-            "Registration error. This email has already been registered."
+            "Ошибка регистрации. Такая почта уже зарегистрирована в системе."
         },
     )
     username = forms.CharField(
         label="Username",
         error_messages={
-            "unique": "Registration error. This email has already been registered."
+            "unique": "Ошибка регистрации. Такой пользователь уже \
+                        зарегистрирован в системе."
         },
     )
 
@@ -120,6 +125,52 @@ class SignupForm(forms.ModelForm):
         return user
 
 
+class PasswordChangeForm(django_forms.SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.validators = []
+
+        # Переопределение подсказок для каждого поля
+        self.fields['old_password'].help_text = "Введите ваш текущий пароль."
+        self.fields['new_password1'].help_text = "Введите ваш новый пароль."
+        self.fields['new_password2'].help_text = (
+            "Введите новый пароль еще раз для подтверждения."
+        )
+
+        self.fields['old_password'].label = "Старый пароль"
+        self.fields['new_password1'].label = "Новый пароль"
+        self.fields['new_password2'].label = "Подтверждение нового пароля"
+
+    # Удаление встроенных валидаторов
+        self.error_messages['password_mismatch'] = (
+            "Пароли не совпадают. Пожалуйста, проверьте правильность ввода."
+        )
+
+        self.error_messages['password_incorrect'] = (
+            "Некорректно введет старый пароль. Пожалуйста, \
+                проверьте правильность ввода."
+        )
+
+    def clean_new_password2(self):
+        password1 = self.cleaned_data.get("new_password1")
+        password2 = self.cleaned_data.get("new_password2")
+        if password1 and password2 and password1 != password2:
+            raise ValidationError(
+                self.error_messages["password_mismatch"],
+                code="password_mismatch",
+            )
+        # password_validation.validate_password(password2, self.user)
+        return password2
+
+
+class CustomPasswordResetConfirmForm(django_forms.SetPasswordForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Здесь вы можете переопределить метки полей.
+        self.fields['new_password1'].label = 'Новый пароль'
+        self.fields['new_password2'].label = 'Подтверждение нового пароля'
+
 # class PasswordResetForm(django_forms.PasswordResetForm):
 #     """Allow resetting passwords.
 
@@ -127,7 +178,8 @@ class SignupForm(forms.ModelForm):
 #     """
 
 #     def get_users(self, email):
-#         active_users = User.objects.filter(email__iexact=email, is_active=True)
+#         active_users = User.objects.filter(email__iexact=email,
+# is_active=True)
 #         return active_users
 
 #     def send_mail(

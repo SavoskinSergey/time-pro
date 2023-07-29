@@ -1,10 +1,13 @@
 from django.views.generic import ListView
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.views import (PasswordResetView,
+                                       PasswordResetConfirmView)
 from django.utils.decorators import method_decorator
 from django.contrib import auth, messages
 from django.contrib.auth import views as django_views
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
 from django.template.response import TemplateResponse
 from django.urls import reverse_lazy
 from .forms import (
@@ -13,6 +16,7 @@ from .forms import (
     # NameForm,
     # PasswordResetForm,
     SignupForm,
+    PasswordChangeForm,
     # get_address_form,
     # logout_on_password_change,
 )
@@ -20,6 +24,7 @@ from .models import User
 
 from django.core.mail import send_mail
 from django.conf import settings
+from .forms import CustomPasswordResetConfirmForm
 
 
 def send_email(subject, message, recipient_list):
@@ -42,6 +47,20 @@ class AccountListView(UserPassesTestMixin, ListView):
         # context['user'] = self.request.user.username
         # context['site_name'] = 'My Blog Site'
         return context
+
+
+@login_required
+def password_change_view(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            return redirect('task:tasks')
+    else:
+        form = PasswordChangeForm(request.user)
+
+    return render(request, 'account/password_change.html', {'form': form})
 
 
 def login(request):
@@ -83,3 +102,12 @@ def signup(request):
         return redirect(redirect_url)
     ctx = {"form": form}
     return TemplateResponse(request, "account/signup.html", ctx)
+
+
+class CustomPasswordResetView(PasswordResetView):
+    success_url = reverse_lazy('account:password_reset_done')
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    form_class = CustomPasswordResetConfirmForm
+    success_url = reverse_lazy('account:password_reset_complete')

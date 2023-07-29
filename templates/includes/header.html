@@ -50,10 +50,11 @@
 
                 <li class="nav-item">
                     <a>
-                    {% comment %} <a class="nav-link {% if view_name  == 'users:change_psw' %}active{% endif %}" 
+                    <a class="nav-link"
+                      href="{%url 'account:change_password' %}"
             
                     > 
-                    Изменить пароль{% endcomment %}
+                    Изменить пароль
                     </a>
                 </li>
                 <li class="nav-item"> 
