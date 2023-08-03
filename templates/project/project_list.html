@@ -29,6 +29,7 @@
     <thead>
         <tr>
           <th  scope="col">#</th>
+          <th  scope="col">Проект</th>
           <th  scope="col">Контрагент</th>
           <th  scope="col">Этап</th>
           <th  scope="col">Бюджет</th>
@@ -42,6 +43,7 @@
 
   <tr>
     <th scope="row">{{ forloop.counter }}</th>
+    <td>{{ project.title }}</td>
     <td>
       <a href="{% url 'project:project_detail' project.id %}"> {{ project.counterparty }}</a>
     </td>

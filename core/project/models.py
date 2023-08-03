@@ -18,10 +18,12 @@ class Project(AbstractModel):
             default=1
             )
     title = models.CharField(max_length=255)
-    counterparty = models.CharField(max_length=50)
-    stage = models.CharField(max_length=50)
+    counterparty = models.CharField(max_length=50, blank=True)
+    stage = models.CharField(max_length=50, blank=True)
     budget = models.DecimalField(max_digits=10, decimal_places=1)
-    responsible = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    responsible = models.ForeignKey(Employee,
+                                    on_delete=models.CASCADE,
+                                    blank=True)
     is_active = models.BooleanField(default=True)
 
     note = models.TextField(null=True, blank=True)
@@ -36,17 +38,6 @@ class Project(AbstractModel):
     def __str__(self):
         return f'{self.counterparty}  - {self.stage}'
 
-    # def subscribe(self, event):
-    #     """Subscribe 'event' if it hasn't been done yet"""
-    #     return self.events_subscribed.add(event)
-
-    # def remove_subscribe(self, event):
-    #     """Remove a subscribe from a 'event'"""
-    #     return self.events_subscribed.remove(event)
-
-    # def has_subscribed(self, event):
-    #     """Return True if the user has subscribed a 'event'; else False"""
-    #     return self.events_subscribed.filter(pk=event.pk).exists()
     def total_charged(self, event):
         """Return True if the user has subscribed a 'event'; else False"""
         return self.events_subscribed.filter(pk=event.pk).exists()
@@ -79,7 +70,7 @@ class TimeEntry(AbstractModel):
     def save(self, *args, **kwargs):
         self.year = self.start_time.year
         day_of_year = (
-            self.start_time.toordinal() 
+            self.start_time.toordinal()
             - date(self.year, 1, 1).toordinal() + 1
         )
         day_of_week = self.start_time.isoweekday()

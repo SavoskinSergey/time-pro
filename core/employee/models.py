@@ -39,11 +39,10 @@ class Employee(AbstractModel):
             default=1
             )
     employee = models.CharField(db_index=True, max_length=50, unique=True)
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
+    first_name = models.CharField(max_length=50, blank=True)
+    last_name = models.CharField(max_length=50, blank=True)
     email = models.EmailField(db_index=True, unique=True)
-    # department = models.CharField(max_length=100, null=True, blank=True)
-    # #     related_name='employees)
+
     department = models.ForeignKey(
         Department,
         on_delete=models.SET_NULL,
