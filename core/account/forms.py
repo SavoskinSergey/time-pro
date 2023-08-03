@@ -125,7 +125,7 @@ class SignupForm(forms.ModelForm):
         return user
 
 
-class PasswordChangeForm(django_forms.SetPasswordForm):
+class PasswordChangeForm(django_forms.PasswordChangeForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
