@@ -106,6 +106,7 @@ def signup(request):
 
 class CustomPasswordResetView(PasswordResetView):
     success_url = reverse_lazy('account:password_reset_done')
+    from_email = settings.EMAIL_HOST_USER
 
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
