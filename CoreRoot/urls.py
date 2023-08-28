@@ -24,7 +24,7 @@ from core.account.urls import urlpatterns as account_urls
 from core.employee.urls import urlpatterns as employee_urls
 from core.project.urls import urlpatterns as project_urls
 from core.task.urls import urlpatterns as task_urls
-
+from core.ivlev_tech.urls import urlpatterns as ivlev_tech_urls
 
 
 handler404 = 'core.task.views.handler404'
@@ -36,7 +36,7 @@ urlpatterns = [
                             namespace='backend')),
     path('admin/', admin.site.urls),
     path('api/', include(('core.routers', 'core'), namespace="core-api")),
-    # path('/', include(('core.routers', 'core'), namespace="core-api")),
+
     re_path(r"^accounts/", include(
                                     (account_urls, "account"),
                                     namespace="account")),
@@ -49,6 +49,9 @@ urlpatterns = [
     re_path(r"^tasks/", include(
                                     (task_urls, "task"),
                                     namespace="task")),
+    re_path(r"^ivlev_tech/", include(
+                                    (ivlev_tech_urls, "ivlev_tech"),
+                                    namespace="ivlev_tech")),
     path('__debug__/', include('debug_toolbar.urls')),
 ]
 

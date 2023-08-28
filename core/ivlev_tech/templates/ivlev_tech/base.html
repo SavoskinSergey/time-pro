@@ -1,0 +1,257 @@
+{% load bootstrap5 %}
+<!doctype html>
+
+{% load static %}
+<html lang="en">
+
+<head>
+    <title>{% block title %}Ivlev_Tech{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <link href="https://fonts.googleapis.com/css?family=Muli:300,400,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css' %}">
+  
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+  
+    <link rel="stylesheet" href="{% static 'css/jquery.fancybox.min.css' %}">
+  
+    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.css' %}">
+  
+    <link rel="stylesheet" href="{% static 'fonts/flaticon/font/flaticon.css' %}">
+  
+    <link rel="stylesheet" href="{% static 'css/aos.css' %}">
+    <link href="{% static 'css/jquery.mb.YTPlayer.min.css' %}" media="all" rel="stylesheet" type="text/css">
+  
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  
+</head>
+
+
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="300">
+
+    <div class="site-wrap">
+        <div class="site-mobile-menu site-navbar-target">
+            <div class="site-mobile-menu-header">
+              <div class="site-mobile-menu-close mt-3">
+                <span class="icon-close2 js-menu-toggle"></span>
+              </div>
+            </div>
+            <div class="site-mobile-menu-body"></div>
+          </div>
+
+        <header class="site-navbar py-4 js-sticky-header site-navbar-target" role="banner">
+
+            <div class="container-fluid">
+            <div class="d-flex align-items-center">
+                <div class="site-logo"><a href="index.html">Ivlev_Tech</a></div>
+                <div class="ml-auto">
+                <nav class="site-navigation position-relative text-right" role="navigation">
+                    <ul class="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                    <li><a href="#home-section" class="nav-link">Home</a></li>
+                    <li><a href="#classes-section" class="nav-link">Classes</a></li>
+                    <li><a href="#trainer-section" class="nav-link">Trainer</a></li>
+                    <li><a href="#services-section" class="nav-link">Services</a></li>
+                    <li><a href="#contact-section" class="nav-link">Contact</a></li>
+                    {% if user.is_authenticated %}
+                        <li>
+                            <a class="nav-link" href="/accounts/logout/">Logout</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a class="nav-link" href="/accounts/login/">Login</a>
+                        </li>
+                    {% endif %}
+                    {% if user.is_authenticated %}
+                    <li><a class="nav-link" href="/accounts/profile/">User: {{ user.username }}</a></li>
+                    {% endif %}
+                    </ul>
+                </nav>
+                <a href="#" class="d-inline-block d-lg-none site-menu-toggle js-menu-toggle float-right"><span class="icon-menu h3"></span></a>
+                </div>
+
+            </div>
+            </div>
+
+        </header>
+
+
+        <div class="bgimg" style="background-image: url('images/bg_2.jpg');"  data-stellar-background-ratio="0.5">
+
+            <div class="container">
+              <div class="row align-items-center justify-content-center text-center">
+                <div class="col-md-7">
+                  <h2 class="">Get The Result You Want</h2>
+                  <p class="lead mx-auto desc mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur, laudantium quia blanditiis ipsum. <a href="#" target="_blank">Get Started</a></p>
+                </div>
+              </div>
+            </div>
+      
+        </div>
+      
+      
+
+        <div class="site-section" id="questions-section">
+            <div class="container">
+
+                {% for message in messages %}
+                <div class="alert alert-{% if message.level_tag == 'error' %}danger{% else %}{{ message.level_tag }}{% endif %}"
+                    role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% block content %}
+                {% endblock %}
+                
+                            <h4>Популярные вопросы</h4>
+                            
+                            <div class="row" id="recent_questions"> </div>
+                                <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+                                <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+                                <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+                                <script src="{% static 'recent-questions.js' %}" type="text/babel"></script>
+                                <script type="text/babel">
+                                    ReactDOM.render(<RecentQuestions url="{% url 'ivlev_tech:api:question-list' %}?limit=5" />,
+                                        document.getElementById('recent_questions')
+                                        );
+                                </script>
+
+            </div>        
+        </div>    
+
+    
+        <div class="site-section" id="trainer-section">
+            <div class="container">
+              <div class="row justify-content-center text-center mb-5" data-aos="fade-up">
+                <div class="col-md-8  section-heading">
+                  <span class="subheading">Наша команда</span>
+                  <h2 class="heading mb-3">Our Trainers</h2>
+                  <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind
+                    texts.
+                    Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+                </div>
+              </div>
+      
+              <div class="row">
+                <div class="col-lg-3 mb-4 mb-lg-0 col-md-6 text-center" data-aos="fade-up" data-aos-delay="">
+                  <div class="person">
+                    <img src="images/person_1.jpg" alt="Image" class="img-fluid">
+                    <h3>Justin Daniel</h3>
+                    <p class="position">Крестный отец</p>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind
+                    texts.</p>
+                  </div>
+                </div>
+                
+                <div class="col-lg-3 mb-4 mb-lg-0 col-md-6 text-center" data-aos="fade-up" data-aos-delay="100">
+                  <div class="person">
+                    <img src="images/person_3.jpg" alt="Image" class="img-fluid">
+                    <h3>Matthew Davidson</h3>
+                    <p class="position">Гуру питон</p>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind
+                      texts.</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 mb-4 mb-lg-0 col-md-6 text-center" data-aos="fade-up" data-aos-delay="200">
+                  <div class="person">
+                    <img src="images/person_2.jpg" alt="Image" class="img-fluid">
+                    <h3>Matthew Davidson</h3>
+                    <p class="position">Скрам мастер</p>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind
+                      texts.</p>
+                  </div>
+                </div>
+                <div class="col-lg-3 mb-4 mb-lg-0 col-md-6 text-center" data-aos="fade-up" data-aos-delay="300">
+                  <div class="person">
+                    <img src="images/person_4.jpg" alt="Image" class="img-fluid">
+                    <h3>Matthew Davidson</h3>
+                    <p class="position">Кофе приносит</p>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind
+                      texts.</p>
+                  </div>
+                </div>
+              
+              </div>
+            </div>
+        </div>
+ 
+
+      <footer class="footer-section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <h3 class="text-dark">About Stamina</h3>
+              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+            </div>
+  
+            <div class="col-md-3 ml-auto">
+              <h3 class="text-dark">Links</h3>
+              <ul class="list-unstyled footer-links">
+                <li><a href="#">Home</a></li>
+              </ul>
+            </div>
+  
+            <div class="col-md-4">
+              <h3 class="text-dark">Subscribe</h3>
+              <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.
+              </p>
+              <form action="#">
+                <div class="d-flex mb-5">
+                  <input type="text" class="form-control rounded-0" placeholder="Email">
+                  <input type="submit" class="btn btn-primary rounded-0" value="Subscribe">
+                </div>
+              </form>
+            </div>
+  
+          </div>
+  
+          <div class="row pt-5 mt-5 text-center">
+            <div class="col-md-12">
+              <div class=" pt-5">
+                <p class="copyright">
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="icon-heart text-danger" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              </p>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </footer>
+  
+  
+  
+</div>
+    <!-- .site-wrap -->
+  
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
+    <script src="{% static 'js/jquery-ui.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'js/aos.js' %}"></script>
+    <script src="{% static 'js/jquery.fancybox.min.js' %}"></script>
+    <script src="{% static 'js/jquery.sticky.js' %}"></script>
+    <script src="{% static 'js/jquery.mb.YTPlayer.min.js' %}"></script>
+  
+  
+  
+  
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+    <!-- Подключение Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+</html>

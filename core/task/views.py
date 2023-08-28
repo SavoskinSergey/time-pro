@@ -60,7 +60,8 @@ class TaskDetailView(UserPassesTestMixin, DetailView, FormView):
         return obj.author == self.request.user
 
     def get_success_url(self):
-        return reverse_lazy('task:task_detail', kwargs={'pk': self.get_object().pk})
+        return reverse_lazy('task:task_detail',
+                            kwargs={'pk': self.get_object().pk})
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()

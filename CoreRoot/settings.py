@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'core.employee',
     'core.project',
     'core.task',
+    'core.ivlev_tech',
 ]
 
 MIDDLEWARE = [
@@ -112,7 +113,7 @@ WSGI_APPLICATION = 'CoreRoot.wsgi.application'
 
 
 # Database
-#https://docs.djangoproject.com/en/4.2/ref/settings/#data bases
+# https://docs.djangoproject.com/en/4.2/ref/settings/#data bases
 
 DATABASES = {
     'default': {

@@ -1,0 +1,33 @@
+
+{% extends 'ivlev_tech/base.html' %}
+
+{% block content %}
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#create_question" data-bs-whatever="@mdo">
+  Добавить новый вопрос
+</button>
+
+
+<a href="{% url 'ivlev_tech:export_question' %}" class="btn btn-secondary float-right">Выгрузить в Excel</a>
+
+<div class="modal fade" id="create_question" tabindex="-1" aria-labelledby="create_questionLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="create_questionLabel">Новый Вопрос</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Создать</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
